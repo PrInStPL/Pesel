@@ -18,7 +18,13 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: php8.3
-      run: sudo add-apt-repository ppa:ondrej/php && sudo apt update && sudo apt-get install php8.3 php-fdomdocument
+      run: sudo add-apt-repository ppa:ondrej/php && sudo apt update && sudo apt-get install php8.3
+
+    - name: PHP extensions
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        extensions: curl, dom, calendar
 
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
@@ -33,7 +39,7 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      run: composer install --prefer-dist -v
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
